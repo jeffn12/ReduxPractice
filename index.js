@@ -132,8 +132,6 @@ const unsub1 = store.subscribe(() => {
   console.log("The state is: " + store.getState());
 });
 
-unsub1();
-
 function addTodo() {
   const input = document.getElementById("todo");
   const name = input.value;
@@ -160,3 +158,7 @@ function addGoal() {
     })
   );
 }
+
+// Add event listeners
+document.getElementById("todoBtn").addEventListener("click", addTodo);
+document.getElementById("goalBtn").addEventListener("click", addGoal);
