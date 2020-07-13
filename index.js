@@ -1,3 +1,5 @@
+// Library Code
+
 /**
  *  createStore function
  * @description library code to mimic a redux store
@@ -36,6 +38,8 @@ function createStore(reducer) {
   };
 }
 
+// App Code
+
 /**
  *  Todos reducer function
  * @description a reducer function to handle actions to the state
@@ -55,6 +59,37 @@ const todosReducer = function (state = [], action) {
     default:
       return state;
   }
+};
+
+const addTodoAction = function (todo) {
+  return {
+    type: "ADD_TODO",
+    todo
+  };
+};
+const deleteTodoAction = function (id) {
+  return {
+    type: "DELETE_TODO",
+    id
+  };
+};
+const toggleTodoAction = function (id) {
+  return {
+    type: "TOGGLE_TODO",
+    id
+  };
+};
+const addGoalAction = function (goal) {
+  return {
+    type: "ADD_GOAL",
+    goal
+  };
+};
+const deleteGoalAction = function (goal) {
+  return {
+    type: "DELETE_GOAL",
+    goal
+  };
 };
 
 /**
