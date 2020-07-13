@@ -172,12 +172,19 @@ document.getElementById("todoBtn").addEventListener("click", addTodo);
 document.getElementById("goalBtn").addEventListener("click", addGoal);
 
 const addTodoToDOM = function (todo) {
+  console.log(todo);
   const node = document.createElement("li");
   const text = document.createTextNode(todo.name);
+
   node.appendChild(text);
+  node.style.textDecoration = todo.completed ? "line-through" : "none";
+  node.addEventListener("click", () => {
+    store.dispatch(toggleTodoAction(todo.id));
+  });
 
   document.getElementById("todos").appendChild(node);
 };
+
 const addGoalToDOM = function (goal) {
   const node = document.createElement("li");
   const text = document.createTextNode(goal.goal);
