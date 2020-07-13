@@ -169,11 +169,24 @@ function addGoal() {
 document.getElementById("todoBtn").addEventListener("click", addTodo);
 document.getElementById("goalBtn").addEventListener("click", addGoal);
 
+const createRemoveButton = function (onClick) {
+  const removeBtn = document.createElement("button");
+  removeBtn.innerHTML = "X";
+  removeBtn.style.marginRight = "20px";
+  removeBtn.addEventListener("click", onClick);
+  return removeBtn;
+};
+
 const addTodoToDOM = function (todo) {
   console.log(todo);
   const node = document.createElement("li");
+  node.style.listStyle = "none";
   const text = document.createTextNode(todo.name);
+  const removeBtn = createRemoveButton(() =>
+    store.dispatch(deleteTodoAction(todo.id))
+  );
 
+  node.append(removeBtn);
   node.appendChild(text);
   node.style.textDecoration = todo.completed ? "line-through" : "none";
   node.addEventListener("click", () => {
