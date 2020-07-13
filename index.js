@@ -41,6 +41,15 @@ function createStore(reducer) {
 // App Code
 
 /**
+ *  ID Generator helper function
+ */
+const generateID = function () {
+  return (
+    Math.random().toString(36).substring(2) * new Date().getTime().toString(36)
+  );
+};
+
+/**
  *  Todos reducer function
  * @description a reducer function to handle actions to the state
  */
