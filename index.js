@@ -129,6 +129,14 @@ function addTodo() {
   const input = document.getElementById("todo");
   const name = input.value;
   input.value = "";
+
+  store.dispatch(
+    addTodoAction({
+      name,
+      complete: false,
+      id: 0
+    })
+  );
 }
 
 function addGoal() {}
