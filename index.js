@@ -46,6 +46,12 @@ todosReducer = function todos(state = [], action) {
       return [...state, action.todo];
     case "DELETE_TODO":
       return state.filter((todo) => action.id !== todo.id);
+    case "TOGGLE_TODO":
+      return state.map((todo) =>
+        todo.id === action.id
+          ? Object.assign({}, todo, { completed: !todo.completed })
+          : todo
+      );
     default:
       return state;
   }
@@ -58,6 +64,9 @@ const unsub1 = store.subscribe(() => {
 const unsub2 = store.subscribe(() => {
   console.log("In the second subscribe: " + store.getState());
 });
-store.dispatch({ type: "ADD_TODO", todo: "Test Todo" });
+store.dispatch({
+  type: "ADD_TODO",
+  todo: { id: 0, title: "Test Todo", completed: false }
+});
 unsub1();
 unsub2();
