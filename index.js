@@ -159,6 +159,16 @@ function addGoal() {
   );
 }
 
+// DOM Code
+
 // Add event listeners
 document.getElementById("todoBtn").addEventListener("click", addTodo);
 document.getElementById("goalBtn").addEventListener("click", addGoal);
+
+const addTodoToDOM = function (todo) {
+  const node = document.createElement("li");
+  const text = document.createTextNode(todo.node);
+  node.appendChild(text);
+
+  document.getElementById("todos").appendChild(node);
+};
