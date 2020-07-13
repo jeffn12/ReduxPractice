@@ -13,10 +13,24 @@ function createStore() {
    */
 
   let state;
+  let listeners = [];
 
   const getState = () => state;
 
+  const subscribe = (listener) => {
+    listeners.push(listener);
+  };
+
   return {
-    getState
+    getState,
+    subscribe
   };
 }
+
+let store = createStore();
+store.subscribe(() => {
+  console.log("The state is: " + store.getState());
+});
+store.subscribe(() => {
+  console.log("Changing the state...");
+});
