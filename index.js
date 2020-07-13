@@ -41,10 +41,12 @@ function createStore(reducer) {
  * @description a reducer function to handle actions to the state
  */
 todosReducer = function todos(state = [], action) {
-  if (action.type === "ADD_TODO") {
-    return [...state, action.todo];
+  switch (action.type) {
+    case "ADD_TODO":
+      return [...state, action.todo];
+    default:
+      return state;
   }
-  return state;
 };
 
 let store = createStore(todosReducer);
