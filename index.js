@@ -1,20 +1,9 @@
 /**
- *  Todos reducer function
- * @description a reducer function to handle actions to the state
- */
-function todos(state = [], action) {
-  if (action.type === "ADD_TODO") {
-    return [...state, action.todo];
-  }
-  return state;
-}
-
-/**
  *  createStore function
- * @description a function to mimic a redux store
+ * @description library code to mimic a redux store
  */
 
-function createStore() {
+function createStore(reducer) {
   /**
    *  Store should have 4 parts:
    *   1. the state
@@ -36,7 +25,7 @@ function createStore() {
   };
 
   const dispatch = (action) => {
-    state = todos(state, action);
+    state = reducer(state, action);
     listeners.forEach((listener) => listener());
   };
 
@@ -47,7 +36,18 @@ function createStore() {
   };
 }
 
-let store = createStore();
+/**
+ *  Todos reducer function
+ * @description a reducer function to handle actions to the state
+ */
+todosReducer = function todos(state = [], action) {
+  if (action.type === "ADD_TODO") {
+    return [...state, action.todo];
+  }
+  return state;
+};
+
+let store = createStore(todosReducer);
 const unsub1 = store.subscribe(() => {
   console.log("The state is: " + store.getState());
 });
