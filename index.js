@@ -31,9 +31,3 @@ function createStore() {
 }
 
 let store = createStore();
-store.subscribe(() => {
-  console.log("The state is: " + store.getState());
-});
-store.subscribe(() => {
-  console.log("Changing the state...");
-});
