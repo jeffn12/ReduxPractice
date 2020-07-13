@@ -148,4 +148,15 @@ function addTodo() {
   );
 }
 
-function addGoal() {}
+function addGoal() {
+  const input = document.getElementById("goal");
+  const name = input.value;
+  input.value = "";
+
+  store.dispatch(
+    addGoalAction({
+      name,
+      id: generateID()
+    })
+  );
+}
