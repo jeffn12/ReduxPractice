@@ -143,7 +143,7 @@ function addTodo() {
     addTodoAction({
       name,
       complete: false,
-      id: 0
+      id: generateID()
     })
   );
 }
