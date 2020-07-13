@@ -1,4 +1,15 @@
 /**
+ *  Todos reducer function
+ * @description a reducer function to handle actions to the state
+ */
+function todos(state = [], action) {
+  if (action.type === "ADD_TODO") {
+    return [...state, action.todo];
+  }
+  return state;
+}
+
+/**
  *  createStore function
  * @description a function to mimic a redux store
  */
