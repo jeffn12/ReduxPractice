@@ -172,3 +172,10 @@ const addTodoToDOM = function (todo) {
 
   document.getElementById("todos").appendChild(node);
 };
+const addGoalToDOM = function (goal) {
+  const node = document.createElement("li");
+  const text = document.createTextNode(goal.node);
+  node.appendChild(text);
+
+  document.getElementById("goals").appendChild(node);
+};
