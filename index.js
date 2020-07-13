@@ -40,7 +40,7 @@ function createStore(reducer) {
  *  Todos reducer function
  * @description a reducer function to handle actions to the state
  */
-todosReducer = function (state = [], action) {
+const todosReducer = function (state = [], action) {
   switch (action.type) {
     case "ADD_TODO":
       return [...state, action.todo];
@@ -61,7 +61,7 @@ todosReducer = function (state = [], action) {
  *  Goals reducer function
  * @description a reducer function to handle actions to the state
  */
-goalsReducer = function (state = [], action) {
+const goalsReducer = function (state = [], action) {
   switch (action.type) {
     case "ADD_GOAL":
       return [...state, action.goal];
@@ -72,7 +72,18 @@ goalsReducer = function (state = [], action) {
   }
 };
 
-let store = createStore(todosReducer);
+/**
+ *  App reducer function
+ * @description a function to combine the reducers into 1 object for the store
+ */
+const appReducer = function (state = {}, action) {
+  return {
+    todos: todosReducer(state.todos, action),
+    goals: goalsReducer(state.goals, action)
+  };
+};
+
+let store = createStore(appReducer);
 const unsub1 = store.subscribe(() => {
   console.log("The state is: " + store.getState());
 });
