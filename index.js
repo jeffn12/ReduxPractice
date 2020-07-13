@@ -129,7 +129,10 @@ const appReducer = function (state = {}, action) {
 
 let store = createStore(appReducer);
 const unsub1 = store.subscribe(() => {
-  console.log("The state is: " + store.getState());
+  const { goals, todos } = store.getState();
+
+  goals.forEach(addGoalToDOM);
+  todos.forEach(addTodoToDOM);
 });
 
 function addTodo() {
@@ -148,12 +151,12 @@ function addTodo() {
 
 function addGoal() {
   const input = document.getElementById("goal");
-  const name = input.value;
+  const goal = input.value;
   input.value = "";
 
   store.dispatch(
     addGoalAction({
-      name,
+      goal,
       id: generateID()
     })
   );
@@ -167,14 +170,14 @@ document.getElementById("goalBtn").addEventListener("click", addGoal);
 
 const addTodoToDOM = function (todo) {
   const node = document.createElement("li");
-  const text = document.createTextNode(todo.node);
+  const text = document.createTextNode(todo.name);
   node.appendChild(text);
 
   document.getElementById("todos").appendChild(node);
 };
 const addGoalToDOM = function (goal) {
   const node = document.createElement("li");
-  const text = document.createTextNode(goal.node);
+  const text = document.createTextNode(goal.goal);
   node.appendChild(text);
 
   document.getElementById("goals").appendChild(node);
