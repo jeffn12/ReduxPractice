@@ -92,10 +92,10 @@ const addGoalAction = function (goal) {
     goal
   };
 };
-const deleteGoalAction = function (goal) {
+const deleteGoalAction = function (id) {
   return {
     type: "DELETE_GOAL",
-    goal
+    id
   };
 };
 
@@ -192,14 +192,18 @@ const addTodoToDOM = function (todo) {
   node.addEventListener("click", () => {
     store.dispatch(toggleTodoAction(todo.id));
   });
-
   document.getElementById("todos").appendChild(node);
 };
 
 const addGoalToDOM = function (goal) {
   const node = document.createElement("li");
+  node.style.listStyle = "none";
   const text = document.createTextNode(goal.goal);
-  node.appendChild(text);
+  const removeBtn = createRemoveButton(() =>
+    store.dispatch(deleteGoalAction(goal.id))
+  );
 
+  node.append(removeBtn);
+  node.appendChild(text);
   document.getElementById("goals").appendChild(node);
 };
