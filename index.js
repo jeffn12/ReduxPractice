@@ -131,6 +131,9 @@ let store = createStore(appReducer);
 const unsub1 = store.subscribe(() => {
   const { goals, todos } = store.getState();
 
+  document.getElementById("goals").innerHTML = "";
+  document.getElementById("todos").innerHTML = "";
+
   goals.forEach(addGoalToDOM);
   todos.forEach(addTodoToDOM);
 });
