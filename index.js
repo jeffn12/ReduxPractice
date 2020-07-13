@@ -136,28 +136,47 @@ const unsub1 = store.subscribe(() => {
   todos.forEach(addTodoToDOM);
 });
 
-function addTodo() {
+const checkAndDispatch = function (store, action) {
+  if (
+    action.type === "ADD_TODO" &&
+    action.todo.name.toLowerCase().includes("bitcoin")
+  ) {
+    return alert("Bitcoin is a bad idea...");
+  } else if (
+    action.type === "ADD_GOAL" &&
+    action.goal.name.toLowerCase().includes("bitcoin")
+  ) {
+    console.log(JSON.stringify(action.goal));
+    return alert("Bitcoin is a bad idea...");
+  }
+
+  return store.dispatch(action);
+};
+
+const addTodo = function () {
   const input = document.getElementById("todo");
   const name = input.value;
   input.value = "";
 
-  store.dispatch(
+  checkAndDispatch(
+    store,
     addTodoAction({
       name,
       complete: false,
       id: generateID()
     })
   );
-}
+};
 
 function addGoal() {
   const input = document.getElementById("goal");
   const goal = input.value;
   input.value = "";
 
-  store.dispatch(
+  checkAndDispatch(
+    store,
     addGoalAction({
-      goal,
+      name: goal,
       id: generateID()
     })
   );
@@ -183,14 +202,14 @@ const addTodoToDOM = function (todo) {
   node.style.listStyle = "none";
   const text = document.createTextNode(todo.name);
   const removeBtn = createRemoveButton(() =>
-    store.dispatch(deleteTodoAction(todo.id))
+    checkAndDispatch(store, deleteTodoAction(todo.id))
   );
 
   node.append(removeBtn);
   node.appendChild(text);
   node.style.textDecoration = todo.completed ? "line-through" : "none";
   node.addEventListener("click", () => {
-    store.dispatch(toggleTodoAction(todo.id));
+    checkAndDispatch(store, toggleTodoAction(todo.id));
   });
   document.getElementById("todos").appendChild(node);
 };
@@ -198,9 +217,9 @@ const addTodoToDOM = function (todo) {
 const addGoalToDOM = function (goal) {
   const node = document.createElement("li");
   node.style.listStyle = "none";
-  const text = document.createTextNode(goal.goal);
+  const text = document.createTextNode(goal.name);
   const removeBtn = createRemoveButton(() =>
-    store.dispatch(deleteGoalAction(goal.id))
+    checkAndDispatch(store, deleteGoalAction(goal.id))
   );
 
   node.append(removeBtn);
