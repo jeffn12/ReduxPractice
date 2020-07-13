@@ -40,7 +40,7 @@ function createStore(reducer) {
  *  Todos reducer function
  * @description a reducer function to handle actions to the state
  */
-todosReducer = function todos(state = [], action) {
+todosReducer = function (state = [], action) {
   switch (action.type) {
     case "ADD_TODO":
       return [...state, action.todo];
@@ -52,6 +52,21 @@ todosReducer = function todos(state = [], action) {
           ? Object.assign({}, todo, { completed: !todo.completed })
           : todo
       );
+    default:
+      return state;
+  }
+};
+
+/**
+ *  Goals reducer function
+ * @description a reducer function to handle actions to the state
+ */
+goalsReducer = function (state = [], action) {
+  switch (action.type) {
+    case "ADD_GOAL":
+      return [...state, action.goal];
+    case "DELETE_GOAL":
+      return state.filter((goal) => action.id !== goal.id);
     default:
       return state;
   }
