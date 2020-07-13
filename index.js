@@ -87,12 +87,13 @@ let store = createStore(appReducer);
 const unsub1 = store.subscribe(() => {
   console.log("The state is: " + store.getState());
 });
-const unsub2 = store.subscribe(() => {
-  console.log("In the second subscribe: " + store.getState());
-});
-store.dispatch({
-  type: "ADD_TODO",
-  todo: { id: 0, title: "Test Todo", completed: false }
-});
+
 unsub1();
-unsub2();
+
+function addTodo() {
+  const input = document.getElementById("todo");
+  const name = input.value;
+  input.value = "";
+}
+
+function addGoal() {}
