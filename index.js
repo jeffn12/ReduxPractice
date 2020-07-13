@@ -44,6 +44,8 @@ todosReducer = function todos(state = [], action) {
   switch (action.type) {
     case "ADD_TODO":
       return [...state, action.todo];
+    case "DELETE_TODO":
+      return state.filter((todo) => action.id !== todo.id);
     default:
       return state;
   }
