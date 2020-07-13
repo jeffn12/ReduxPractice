@@ -48,3 +48,12 @@ function createStore() {
 }
 
 let store = createStore();
+const unsub1 = store.subscribe(() => {
+  console.log("The state is: " + store.getState());
+});
+const unsub2 = store.subscribe(() => {
+  console.log("In the second subscribe: " + store.getState());
+});
+store.dispatch({ type: "ADD_TODO", todo: "Test Todo" });
+unsub1();
+unsub2();
