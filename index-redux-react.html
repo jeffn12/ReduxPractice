@@ -38,6 +38,8 @@
               ? Object.assign({}, todo, { completed: !todo.completed })
               : todo
           );
+        case "RECEIVE_DATA":
+          return action.todos;
         default:
           return state;
       }
@@ -73,6 +75,8 @@
           return [...state, action.goal];
         case "DELETE_GOAL":
           return state.filter((goal) => action.id !== goal.id);
+        case "RECEIVE_DATA":
+          return action.goals;
         default:
           return state;
       }
@@ -89,6 +93,15 @@
       return {
         type: "DELETE_GOAL",
         id
+      };
+    };
+
+    // Seeding data action creator
+    const receiveDataAction = function (todos, goals) {
+      return {
+        type: "RECEIVE_DATA",
+        todos,
+        goals
       };
     };
 
