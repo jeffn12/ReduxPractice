@@ -228,18 +228,51 @@
 
   <script type="text/babel">
     const List = () => {
-      return <h1>LIST</h1>;
+      return (
+        <ul>
+          <li>List</li>
+        </ul>
+      );
     };
 
     class Todos extends React.Component {
+      addItem = (e) => {
+        e.preventDefault();
+        const name = this.input.value;
+        this.input.value = "";
+
+        store.dispatch(
+          addTodoAction({
+            name,
+            complete: false,
+            id: generateID()
+          })
+        );
+      };
       render() {
-        return <h1>TODOS</h1>;
+        return (
+          <div>
+            <h1>Todo List</h1>
+            <input
+              type="text"
+              placeholder="Add Todo"
+              ref={(input) => (this.input = input)}
+            />
+            <button onClick={this.addItem}>Add Todo</button>
+            <List />
+          </div>
+        );
       }
     }
 
     class Goals extends React.Component {
       render() {
-        return <h1>GOALS</h1>;
+        return (
+          <div>
+            <h1>GOALS</h1>
+            <List />
+          </div>
+        );
       }
     }
 
@@ -254,6 +287,6 @@
       }
     }
 
-    ReactDOM.render(<App />, document.getElementById("app"));
+    ReactDOM.render(<App store={store} />, document.getElementById("app"));
   </script>
 </body>
