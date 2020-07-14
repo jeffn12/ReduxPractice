@@ -133,8 +133,13 @@
       return (
         <ul>
           {props.items.map((item) => (
-            <li key={item.id}>
-              <button onClick={() => props.remove(item)}>X</button>
+            <li key={item.id} style={{ listStyle: "none" }}>
+              <button
+                style={{ marginRight: "20px", borderRadius: "50%" }}
+                onClick={() => props.remove(item)}
+              >
+                X
+              </button>
               <span
                 onClick={() => props.toggle && props.toggle(item.id)}
                 style={{
@@ -175,7 +180,7 @@
       render() {
         return (
           <div>
-            <h1>Todo List</h1>
+            <h1>Todo List:</h1>
             <input
               type="text"
               placeholder="Add Todo"
@@ -213,7 +218,7 @@
       render() {
         return (
           <div>
-            <h1>GOALS</h1>
+            <h1>Goals List:</h1>
             <input
               type="text"
               placeholder="Add Goal"
