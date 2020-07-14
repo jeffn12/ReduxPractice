@@ -239,6 +239,13 @@
         store.subscribe(() => {
           this.forceUpdate();
         });
+
+        Promise.all([API.fetchGoals(), API.fetchTodos()]).then(
+          ([goals, todos]) => {
+            console.log("Goals: ", goals);
+            console.log("Todos: ", todos);
+          }
+        );
       };
 
       render() {
