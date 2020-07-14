@@ -8,9 +8,11 @@ const generateID = function () {
 };
 
 /**
- *  Todos reducer function
- * @description a reducer function to handle actions to the state
+ *  Todos
+ * @description functions associated with managing the state of the todos
  */
+
+// reducer function for managing todo actions
 const todosReducer = function (state = [], action) {
   switch (action.type) {
     case "ADD_TODO":
@@ -28,6 +30,7 @@ const todosReducer = function (state = [], action) {
   }
 };
 
+// Todo list Action Creators:
 const addTodoAction = function (todo) {
   return {
     type: "ADD_TODO",
@@ -46,6 +49,23 @@ const toggleTodoAction = function (id) {
     id
   };
 };
+
+/**
+ *  Goals
+ * @description functions associated with managing the state of the goals
+ */
+const goalsReducer = function (state = [], action) {
+  switch (action.type) {
+    case "ADD_GOAL":
+      return [...state, action.goal];
+    case "DELETE_GOAL":
+      return state.filter((goal) => action.id !== goal.id);
+    default:
+      return state;
+  }
+};
+
+// Goal list Action creators:
 const addGoalAction = function (goal) {
   return {
     type: "ADD_GOAL",
@@ -59,24 +79,12 @@ const deleteGoalAction = function (id) {
   };
 };
 
-/**
- *  Goals reducer function
- * @description a reducer function to handle actions to the state
- */
-const goalsReducer = function (state = [], action) {
-  switch (action.type) {
-    case "ADD_GOAL":
-      return [...state, action.goal];
-    case "DELETE_GOAL":
-      return state.filter((goal) => action.id !== goal.id);
-    default:
-      return state;
-  }
-};
-
+// Create the store using Redux
 let store = Redux.createStore(
   Redux.combineReducers({ todos: todosReducer, goals: goalsReducer })
 );
+
+// Subscribe to listen for changes in the state
 const unsub1 = store.subscribe(() => {
   const { goals, todos } = store.getState();
 
@@ -87,6 +95,11 @@ const unsub1 = store.subscribe(() => {
   todos.forEach(addTodoToDOM);
 });
 
+/**
+ * Middleware functions
+ */
+
+// Don't allow 'bitcoin' on either list
 const checkAndDispatch = function (store, action) {
   if (
     action.type === "ADD_TODO" &&
@@ -130,12 +143,15 @@ function addGoal() {
   );
 }
 
-// DOM Code
+/**
+ * DOM Code
+ */
 
 // Add event listeners
 document.getElementById("todoBtn").addEventListener("click", addTodo);
 document.getElementById("goalBtn").addEventListener("click", addGoal);
 
+// Button to remove an item from a list
 const createRemoveButton = function (onClick) {
   const removeBtn = document.createElement("button");
   removeBtn.innerHTML = "X";
@@ -144,6 +160,7 @@ const createRemoveButton = function (onClick) {
   return removeBtn;
 };
 
+// Add a Todo item to the list in the DOM
 const addTodoToDOM = function (todo) {
   const node = document.createElement("li");
   node.style.listStyle = "none";
@@ -161,6 +178,7 @@ const addTodoToDOM = function (todo) {
   document.getElementById("todos").appendChild(node);
 };
 
+// Add a Goal item to the list in the DOM
 const addGoalToDOM = function (goal) {
   const node = document.createElement("li");
   node.style.listStyle = "none";
