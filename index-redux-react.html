@@ -227,10 +227,12 @@
   </script>
 
   <script type="text/babel">
-    const List = () => {
+    const List = (props) => {
       return (
         <ul>
-          <li>List</li>
+          {props.items.map((item) => (
+            <li key={item.id}>{item.name}</li>
+          ))}
         </ul>
       );
     };
@@ -259,7 +261,7 @@
               ref={(input) => (this.input = input)}
             />
             <button onClick={this.addItem}>Add Todo</button>
-            <List />
+            <List items={this.props.todos} />
           </div>
         );
       }
@@ -289,7 +291,7 @@
               ref={(input) => (this.input = input)}
             />
             <button onClick={this.addGoal}>Add Goal</button>
-            <List />
+            <List items={this.props.goals} />
           </div>
         );
       }
