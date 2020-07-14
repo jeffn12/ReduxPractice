@@ -1,43 +1,3 @@
-// Library Code
-
-/**
- *  createStore function
- * @description library code to mimic a redux store
- */
-
-function createStore(reducer) {
-  /**
-   *  Store should have 4 parts:
-   *   1. the state
-   *   2. get the state
-   *   3. listen to changes on state
-   *   4. update the state
-   */
-
-  let state;
-  let listeners = [];
-
-  const getState = () => state;
-
-  const subscribe = (listener) => {
-    listeners.push(listener);
-    return () => {
-      listeners = listeners.filter((l) => l !== listener);
-    };
-  };
-
-  const dispatch = (action) => {
-    state = reducer(state, action);
-    listeners.forEach((listener) => listener());
-  };
-
-  return {
-    getState,
-    subscribe,
-    dispatch
-  };
-}
-
 // App Code
 
 /**
@@ -114,18 +74,9 @@ const goalsReducer = function (state = [], action) {
   }
 };
 
-/**
- *  App reducer function
- * @description a function to combine the reducers into 1 object for the store
- */
-const appReducer = function (state = {}, action) {
-  return {
-    todos: todosReducer(state.todos, action),
-    goals: goalsReducer(state.goals, action)
-  };
-};
-
-let store = createStore(appReducer);
+let store = Redux.createStore(
+  Redux.combineReducers({ todos: todosReducer, goals: goalsReducer })
+);
 const unsub1 = store.subscribe(() => {
   const { goals, todos } = store.getState();
 
@@ -146,10 +97,8 @@ const checkAndDispatch = function (store, action) {
     action.type === "ADD_GOAL" &&
     action.goal.name.toLowerCase().includes("bitcoin")
   ) {
-    console.log(JSON.stringify(action.goal));
     return alert("Bitcoin is a bad idea...");
   }
-
   return store.dispatch(action);
 };
 
@@ -172,7 +121,6 @@ function addGoal() {
   const input = document.getElementById("goal");
   const goal = input.value;
   input.value = "";
-
   checkAndDispatch(
     store,
     addGoalAction({
@@ -197,7 +145,6 @@ const createRemoveButton = function (onClick) {
 };
 
 const addTodoToDOM = function (todo) {
-  console.log(todo);
   const node = document.createElement("li");
   node.style.listStyle = "none";
   const text = document.createTextNode(todo.name);
