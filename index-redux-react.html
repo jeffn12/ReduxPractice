@@ -97,11 +97,11 @@
     };
 
     // Seeding data action creator
-    const receiveDataAction = function (todos, goals) {
+    const receiveDataAction = function (goals, todos) {
       return {
         type: "RECEIVE_DATA",
-        todos,
-        goals
+        goals,
+        todos
       };
     };
 
@@ -255,8 +255,7 @@
 
         Promise.all([API.fetchGoals(), API.fetchTodos()]).then(
           ([goals, todos]) => {
-            console.log("Goals: ", goals);
-            console.log("Todos: ", todos);
+            this.props.store.dispatch(receiveDataAction(goals, todos));
           }
         );
       };
