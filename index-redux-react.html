@@ -19,7 +19,8 @@
     <button id="todoBtn">Add Todo</button>
     <ul id="todos"></ul>
   </div>
-
+  <hr />
+  <div id="app"></div>
   <script>
     // App Code
 
@@ -223,5 +224,36 @@
       node.appendChild(text);
       document.getElementById("goals").appendChild(node);
     };
+  </script>
+
+  <script type="text/babel">
+    const List = () => {
+      return <h1>LIST</h1>;
+    };
+
+    class Todos extends React.Component {
+      render() {
+        return <h1>TODOS</h1>;
+      }
+    }
+
+    class Goals extends React.Component {
+      render() {
+        return <h1>GOALS</h1>;
+      }
+    }
+
+    class App extends React.Component {
+      render() {
+        return (
+          <div>
+            <Todos />
+            <Goals />
+          </div>
+        );
+      }
+    }
+
+    ReactDOM.render(<App />, document.getElementById("app"));
   </script>
 </body>
