@@ -99,10 +99,20 @@ const bitcoinChecker = (store) => (next) => (action) => {
   return next(action);
 };
 
+// Logger Middleware
+const logger = (store) => (next) => (action) => {
+  console.group(action.type);
+  console.log("Action: ", action);
+  const result = next(action);
+  console.log("New State: ", store.getState());
+  console.groupEnd();
+  return result;
+};
+
 // Create the store using Redux
 let store = Redux.createStore(
   Redux.combineReducers({ todos: todosReducer, goals: goalsReducer }),
-  Redux.applyMiddleware(bitcoinChecker)
+  Redux.applyMiddleware(logger, bitcoinChecker)
 );
 
 // Subscribe to listen for changes in the state
