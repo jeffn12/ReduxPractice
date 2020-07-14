@@ -206,7 +206,7 @@
         this.props.store.dispatch(deleteTodoAction(todo.id));
         return API.deleteTodo(todo.id).catch(() => {
           this.props.store.dispatch(addTodoAction(todo));
-          alert("An error occured.  Try again.");
+          alert("An error occurred.  Try again.");
         });
       };
 
@@ -251,6 +251,10 @@
 
       removeGoal = (goal) => {
         this.props.store.dispatch(deleteGoalAction(goal.id));
+        return API.deleteGoal(goal.id).catch(() => {
+          this.props.store.dispatch(addGoalAction(goal));
+          alert("An error has occurred.  Try again.");
+        });
       };
 
       render() {
