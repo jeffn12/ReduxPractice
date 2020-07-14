@@ -105,6 +105,15 @@
       };
     };
 
+    const loading = (state = true, action) => {
+      switch (action.type) {
+        case "RECEIVE_DATA":
+          return false;
+        default:
+          return state;
+      }
+    };
+
     /**
      * Middleware functions
      */
@@ -137,7 +146,11 @@
 
     // Create the store using Redux
     let store = Redux.createStore(
-      Redux.combineReducers({ todos: todosReducer, goals: goalsReducer }),
+      Redux.combineReducers({
+        todos: todosReducer,
+        goals: goalsReducer,
+        loading
+      }),
       Redux.applyMiddleware(logger, bitcoinChecker)
     );
   </script>
@@ -146,24 +159,30 @@
     const List = (props) => {
       return (
         <ul>
-          {props.items.map((item) => (
-            <li key={item.id} style={{ listStyle: "none" }}>
-              <button
-                style={{ marginRight: "20px", borderRadius: "50%" }}
-                onClick={() => props.remove(item)}
-              >
-                X
-              </button>
-              <span
-                onClick={() => props.toggle && props.toggle(item.id)}
-                style={{
-                  textDecoration: item.complete ? "line-through" : "none"
-                }}
-              >
-                {item.name}
-              </span>
+          {props.loading ? (
+            <li key="0" style={{ listStyle: "none" }}>
+              Loading...
             </li>
-          ))}
+          ) : (
+            props.items.map((item) => (
+              <li key={item.id} style={{ listStyle: "none" }}>
+                <button
+                  style={{ marginRight: "20px", borderRadius: "50%" }}
+                  onClick={() => props.remove(item)}
+                >
+                  X
+                </button>
+                <span
+                  onClick={() => props.toggle && props.toggle(item.id)}
+                  style={{
+                    textDecoration: item.complete ? "line-through" : "none"
+                  }}
+                >
+                  {item.name}
+                </span>
+              </li>
+            ))
+          )}
         </ul>
       );
     };
@@ -203,6 +222,7 @@
             <button onClick={this.addItem}>Add Todo</button>
             <List
               items={this.props.todos}
+              loading={this.props.store.getState().loading}
               remove={this.removeTodo}
               toggle={this.toggleTodo}
             />
@@ -239,7 +259,11 @@
               ref={(input) => (this.input = input)}
             />
             <button onClick={this.addGoal}>Add Goal</button>
-            <List items={this.props.goals} remove={this.removeGoal} />
+            <List
+              items={this.props.goals}
+              remove={this.removeGoal}
+              loading={this.props.store.getState().loading}
+            />
           </div>
         );
       }
@@ -262,7 +286,8 @@
 
       render() {
         const { store } = this.props;
-        const { goals, todos } = store.getState();
+        const { goals, todos, loading } = store.getState();
+
         return (
           <div>
             <Todos todos={todos} store={this.props.store} />
