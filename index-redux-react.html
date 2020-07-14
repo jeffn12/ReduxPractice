@@ -231,7 +231,10 @@
       return (
         <ul>
           {props.items.map((item) => (
-            <li key={item.id}>{item.name}</li>
+            <li key={item.id}>
+              <button onClick={() => props.remove(item)}>X</button>
+              {item.name}
+            </li>
           ))}
         </ul>
       );
@@ -251,6 +254,11 @@
           })
         );
       };
+
+      removeTodo = (todo) => {
+        this.props.store.dispatch(deleteTodoAction(todo.id));
+      };
+
       render() {
         return (
           <div>
@@ -261,7 +269,7 @@
               ref={(input) => (this.input = input)}
             />
             <button onClick={this.addItem}>Add Todo</button>
-            <List items={this.props.todos} />
+            <List items={this.props.todos} remove={this.removeTodo} />
           </div>
         );
       }
