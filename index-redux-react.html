@@ -109,12 +109,21 @@
 
     const handleAddGoal = function (name, cb) {
       return (dispatch) => {
-        API.saveGoal(this.input.value)
+        API.saveGoal(name)
           .then((goal) => {
             dispatch(addGoalAction(goal));
-            cb;
+            cb();
           })
           .catch(() => alert("An error occurred.  Try again."));
+      };
+    };
+
+    const handleDeleteGoal = function (goal) {
+      return (dispatch) => {
+        return API.deleteGoal(goal.id).catch(() => {
+          dispatch(addGoalAction(goal));
+          alert("An error has occurred.  Try again.");
+        });
       };
     };
 
@@ -263,11 +272,7 @@
       };
 
       removeGoal = (goal) => {
-        this.props.store.dispatch(deleteGoalAction(goal.id));
-        return API.deleteGoal(goal.id).catch(() => {
-          this.props.store.dispatch(addGoalAction(goal));
-          alert("An error has occurred.  Try again.");
-        });
+        this.props.store.dispatch(handleDeleteGoal(goal));
       };
 
       render() {
