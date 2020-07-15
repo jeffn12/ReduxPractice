@@ -66,6 +66,17 @@
       };
     };
 
+    const handleAddTodo = (name, cb) => {
+      return (dispatch) => {
+        return API.saveTodo(name)
+          .then((todo) => {
+            dispatch(addTodoAction(todo));
+            cb();
+          })
+          .catch(() => alert("An error occurred.  Try again."));
+      };
+    };
+
     const handleDeleteTodo = (todo) => {
       return (dispatch) => {
         dispatch(deleteTodoAction(todo.id));
@@ -222,13 +233,9 @@
     class Todos extends React.Component {
       addItem = (e) => {
         e.preventDefault();
-
-        return API.saveTodo(this.input.value)
-          .then((todo) => {
-            this.props.store.dispatch(addTodoAction(todo));
-            this.input.value = "";
-          })
-          .catch(() => alert("An error occurred.  Try again."));
+        this.props.store.dispatch(
+          handleAddTodo(this.input.value, () => (this.input.value = ""))
+        );
       };
 
       removeTodo = (todo) => {
