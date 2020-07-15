@@ -290,13 +290,13 @@
     class Goals extends React.Component {
       addGoal = (e) => {
         e.preventDefault();
-        this.props.store.dispatch(
+        this.props.dispatch(
           handleAddGoal(this.input.value, () => (this.input.value = ""))
         );
       };
 
       removeGoal = (goal) => {
-        this.props.store.dispatch(handleDeleteGoal(goal));
+        this.props.dispatch(handleDeleteGoal(goal));
       };
 
       render() {
@@ -312,7 +312,7 @@
             <List
               items={this.props.goals}
               remove={this.removeGoal}
-              loading={this.props.store.getState().loading}
+              loading={this.props.loading}
             />
           </div>
         );
@@ -337,7 +337,7 @@
         return (
           <div>
             <Todos todos={todos} store={this.props.store} />
-            <Goals goals={goals} store={this.props.store} />
+            <ConnectedGoals />
           </div>
         );
       }
@@ -360,6 +360,26 @@
         return (
           <Context.Consumer>
             {(store) => <App store={store} />}
+          </Context.Consumer>
+        );
+      }
+    }
+
+    class ConnectedGoals extends React.Component {
+      render() {
+        return (
+          <Context.Consumer>
+            {(store) => {
+              const { goals, loading } = store.getState();
+              console.log(goals);
+              return (
+                <Goals
+                  goals={goals}
+                  dispatch={store.dispatch}
+                  loading={loading}
+                />
+              );
+            }}
           </Context.Consumer>
         );
       }
