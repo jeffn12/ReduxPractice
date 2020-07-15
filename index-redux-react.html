@@ -107,6 +107,17 @@
       };
     };
 
+    const handleAddGoal = function (name, cb) {
+      return (dispatch) => {
+        API.saveGoal(this.input.value)
+          .then((goal) => {
+            dispatch(addGoalAction(goal));
+            cb;
+          })
+          .catch(() => alert("An error occurred.  Try again."));
+      };
+    };
+
     // Seeding data action creator
     const receiveDataAction = function (goals, todos) {
       return {
@@ -246,13 +257,9 @@
     class Goals extends React.Component {
       addGoal = (e) => {
         e.preventDefault();
-
-        return API.saveGoal(this.input.value)
-          .then((goal) => {
-            this.props.store.dispatch(addGoalAction(goal));
-            this.input.value = "";
-          })
-          .catch(() => alert("An error occurred.  Try again."));
+        this.props.store.dispatch(
+          handleAddGoal(this.input.value, () => (this.input.value = ""))
+        );
       };
 
       removeGoal = (goal) => {
