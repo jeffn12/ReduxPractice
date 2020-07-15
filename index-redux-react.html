@@ -120,6 +120,7 @@
 
     const handleDeleteGoal = function (goal) {
       return (dispatch) => {
+        dispatch(deleteGoalAction(goal.id));
         return API.deleteGoal(goal.id).catch(() => {
           dispatch(addGoalAction(goal));
           alert("An error has occurred.  Try again.");
