@@ -87,6 +87,16 @@
       };
     };
 
+    const handleToggleTodo = (id) => {
+      return (dispatch) => {
+        dispatch(toggleTodoAction(id));
+        return API.saveTodoToggle(id).catch(() => {
+          dispatch(toggleTodoAction(id));
+          alert("An error occurred.  Try again.");
+        });
+      };
+    };
+
     /**
      *  Goals
      * @description functions associated with managing the state of the goals
@@ -243,11 +253,7 @@
       };
 
       toggleTodo = (id) => {
-        this.props.store.dispatch(toggleTodoAction(id));
-        return API.saveTodoToggle(id).catch(() => {
-          this.props.store.dispatch(toggleTodoAction(id));
-          alert("An error occurred.  Try again.");
-        });
+        this.props.store.dispatch(handleToggleTodo(id));
       };
 
       render() {
