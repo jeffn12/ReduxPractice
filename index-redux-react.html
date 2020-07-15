@@ -253,17 +253,17 @@
     class Todos extends React.Component {
       addItem = (e) => {
         e.preventDefault();
-        this.props.store.dispatch(
+        this.props.dispatch(
           handleAddTodo(this.input.value, () => (this.input.value = ""))
         );
       };
 
       removeTodo = (todo) => {
-        this.props.store.dispatch(handleDeleteTodo(todo));
+        this.props.dispatch(handleDeleteTodo(todo));
       };
 
       toggleTodo = (id) => {
-        this.props.store.dispatch(handleToggleTodo(id));
+        this.props.dispatch(handleToggleTodo(id));
       };
 
       render() {
@@ -278,7 +278,7 @@
             <button onClick={this.addItem}>Add Todo</button>
             <List
               items={this.props.todos}
-              loading={this.props.store.getState().loading}
+              loading={this.props.loading}
               remove={this.removeTodo}
               toggle={this.toggleTodo}
             />
@@ -336,7 +336,7 @@
 
         return (
           <div>
-            <Todos todos={todos} store={this.props.store} />
+            <ConnectedTodos />
             <ConnectedGoals />
           </div>
         );
@@ -371,10 +371,30 @@
           <Context.Consumer>
             {(store) => {
               const { goals, loading } = store.getState();
-              console.log(goals);
+
               return (
                 <Goals
                   goals={goals}
+                  dispatch={store.dispatch}
+                  loading={loading}
+                />
+              );
+            }}
+          </Context.Consumer>
+        );
+      }
+    }
+
+    class ConnectedTodos extends React.Component {
+      render() {
+        return (
+          <Context.Consumer>
+            {(store) => {
+              const { todos, loading } = store.getState();
+
+              return (
+                <Todos
+                  todos={todos}
                   dispatch={store.dispatch}
                   loading={loading}
                 />
