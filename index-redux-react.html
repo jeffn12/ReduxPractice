@@ -158,6 +158,16 @@
       };
     };
 
+    const handleReceiveData = function () {
+      return (dispatch) => {
+        return Promise.all([API.fetchGoals(), API.fetchTodos()]).then(
+          ([goals, todos]) => {
+            dispatch(receiveDataAction(goals, todos));
+          }
+        );
+      };
+    };
+
     const loading = (state = true, action) => {
       switch (action.type) {
         case "RECEIVE_DATA":
@@ -313,15 +323,11 @@
       componentDidMount = () => {
         const { store } = this.props;
 
+        store.dispatch(handleReceiveData());
+
         store.subscribe(() => {
           this.forceUpdate();
         });
-
-        Promise.all([API.fetchGoals(), API.fetchTodos()]).then(
-          ([goals, todos]) => {
-            this.props.store.dispatch(receiveDataAction(goals, todos));
-          }
-        );
       };
 
       render() {
