@@ -355,9 +355,19 @@
       }
     }
 
+    class ContainerApp extends React.Component {
+      render() {
+        return (
+          <Context.Consumer>
+            {(store) => <App store={store} />}
+          </Context.Consumer>
+        );
+      }
+    }
+
     ReactDOM.render(
       <Provider store={store}>
-        <App />
+        <ContainerApp />
       </Provider>,
       document.getElementById("app")
     );
