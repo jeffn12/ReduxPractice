@@ -321,19 +321,12 @@
 
     class App extends React.Component {
       componentDidMount = () => {
-        const { store } = this.props;
+        const { dispatch } = this.props;
 
-        store.dispatch(handleReceiveData());
-
-        store.subscribe(() => {
-          this.forceUpdate();
-        });
+        dispatch(handleReceiveData());
       };
 
       render() {
-        const { store } = this.props;
-        const { goals, todos, loading } = store.getState();
-
         return (
           <div>
             <ConnectedTodos />
@@ -390,55 +383,15 @@
       }
     }
 
-    class ContainerApp extends React.Component {
-      render() {
-        return (
-          <Context.Consumer>
-            {(store) => <App store={store} />}
-          </Context.Consumer>
-        );
-      }
-    }
-
-    class ConnectedGoals extends React.Component {
-      render() {
-        return (
-          <Context.Consumer>
-            {(store) => {
-              const { goals, loading } = store.getState();
-
-              return (
-                <Goals
-                  goals={goals}
-                  dispatch={store.dispatch}
-                  loading={loading}
-                />
-              );
-            }}
-          </Context.Consumer>
-        );
-      }
-    }
-
-    class ConnectedTodos extends React.Component {
-      render() {
-        return (
-          <Context.Consumer>
-            {(store) => {
-              const { todos, loading } = store.getState();
-
-              return (
-                <Todos
-                  todos={todos}
-                  dispatch={store.dispatch}
-                  loading={loading}
-                />
-              );
-            }}
-          </Context.Consumer>
-        );
-      }
-    }
+    const ContainerApp = connect((state) => ({}))(App);
+    const ConnectedGoals = connect((state) => ({
+      goals: state.goals,
+      loading: state.loading
+    }))(Goals);
+    const ConnectedTodos = connect((state) => ({
+      todos: state.todos,
+      loading: state.loading
+    }))(Todos);
 
     ReactDOM.render(
       <Provider store={store}>
